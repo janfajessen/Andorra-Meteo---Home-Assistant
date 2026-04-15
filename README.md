@@ -2,7 +2,7 @@
 
 # Andorra Meteo
 
-<img src="brands/icon@2x.png" width="250"/>
+<img src="brands/logo@2x.png" width="450"/>
 
 ![Version](https://img.shields.io/badge/version-1.5.24-blue?style=for-the-badge)
 ![HA](https://img.shields.io/badge/Home%20Assistant-2024.1+-orange?style=for-the-badge&logo=home-assistant)
@@ -44,6 +44,7 @@
 2. Afegeix `https://github.com/janfajessen/andorra_meteo` com a tipus **Integration**
 3. Cerca **Andorra Meteo** i instal·la
 4. Reinicia Home Assistant
+<img src="brands/icon@2x.png" width="100"/>
 
 ### Manual
 
@@ -368,6 +369,7 @@ Integración de Home Assistant para datos meteorológicos y peligro de aludes en
 ### Instalación
 
 **Via HACS:** Añade `https://github.com/janfajessen/andorra_meteo` como repositorio personalizado de tipo Integration, busca "Andorra Meteo" e instala. Reinicia Home Assistant.
+<img src="brands/icon@2x.png" width="100"/>
 
 **Manual:** Copia la carpeta `custom_components/meteo_andorra/` a `config/custom_components/` y reinicia.
 
@@ -399,6 +401,7 @@ Intégration Home Assistant pour les données météorologiques et le danger d'a
 ### Installation
 
 **Via HACS:** Ajoutez `https://github.com/janfajessen/andorra_meteo` comme dépôt personnalisé de type Integration, cherchez "Andorra Meteo" et installez. Redémarrez Home Assistant.
+<img src="brands/icon@2x.png" width="100"/>
 
 **Manuel:** Copiez le dossier `custom_components/meteo_andorra/` dans `config/custom_components/` et redémarrez.
 
@@ -430,6 +433,7 @@ Home Assistant integration for real-time weather data and avalanche danger in th
 ### Installation
 
 **Via HACS:** Add `https://github.com/janfajessen/andorra_meteo` as a custom repository of type Integration, search for "Andorra Meteo" and install. Restart Home Assistant.
+<img src="brands/icon@2x.png" width="100"/>
 
 **Manual:** Copy the `custom_components/meteo_andorra/` folder to `config/custom_components/` and restart.
 
@@ -461,6 +465,7 @@ Integração de Home Assistant para dados meteorológicos e perigo de avalanche 
 ### Instalação
 
 **Via HACS:** Adicione `https://github.com/janfajessen/andorra_meteo` como repositório personalizado do tipo Integration, procure "Andorra Meteo" e instale. Reinicie o Home Assistant.
+<img src="brands/icon@2x.png" width="100"/>
 
 **Manual:** Copie a pasta `custom_components/meteo_andorra/` para `config/custom_components/` e reinicie.
 
