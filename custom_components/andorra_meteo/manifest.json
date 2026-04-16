@@ -1,0 +1,12 @@
+{
+  "domain": "andorra_meteo",
+  "name": "Andorra Meteo",
+  "version": "1.0.0",
+  "config_flow": true,
+  "documentation": "https://github.com/janfajessen/Andorra-Meteo---Home-Assistant",
+  "issue_tracker": "https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/issues",
+  "requirements": ["beautifulsoup4==4.12.3"],
+  "dependencies": [],
+  "codeowners": ["@janfajessen"],
+  "iot_class": "cloud_polling"
+}
