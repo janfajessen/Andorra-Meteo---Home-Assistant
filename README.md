@@ -23,144 +23,6 @@
 
 ---
 
-Integració de Home Assistant per al temps i el perill d'allaus del Principat d'Andorra, amb dades de la xarxa [Meteoclimatic](https://www.meteoclimatic.net/) i el [Servei Meteorològic Nacional](https://www.meteo.ad/).
-
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
-
----
-
-## Fonts de dades
-
-| Mòdul | Font | Freqüència |
-|---|---|---|
-| Estació meteorològica | Meteoclimatic — feed RSS públic | 30 min |
-| Butlletí d'allaus | meteo.ad — Servei Meteorològic Nacional | 60 min |
-
----
-
-## Instal·lació
-
-### Via HACS (recomanat)
-
-1. Obre **HACS → Integracions → ⋮ → Repositoris personalitzats**.
-2. Afegeix `https://github.com/janfajessen/meteo_andorra` com a tipus **Integration**.
-3. Cerca **Meteo Andorra** i instal·la.
-4. Reinicia Home Assistant.
-<img src="brands/icon@2x.png" width="100"/>
-
-### Manual
-
-1. Copia la carpeta `custom_components/meteo_andorra` al directori `config/custom_components/`.
-2. Reinicia Home Assistant.
-
----
-
-## Configuració
-
-A **Configuració → Dispositius i serveis → + Afegeix integració**, cerca **Meteo Andorra**.
-
-El primer pas mostra un desplegable únic:
-
-```
-Canillo
-Encamp
-Ordino
-Sant Julià de Lòria
-Escaldes-Engordany
-Butlletí d'allaus — Principat d'Andorra
-```
-
-- Si tries una **parròquia amb una sola estació** → es configura directament.
-- Si tries **Escaldes-Engordany** → apareix un segon pas per escollir entre les dues estacions disponibles.
-- Si tries **Butlletí d'allaus** → es configura sol, sense cap pas addicional.
-
-> Pots afegir **múltiples estàcions** tornant a afegir la integració. El butlletí d'allaus només es pot afegir **una vegada**.
-
-### Estacions disponibles
-
-| Parròquia | Estació |
-|---|---|
-| Canillo | ```El Pas de Canillo``` |
-| Encamp | ```Encamp``` |
-| Ordino | ```Cortinada``` |
-| Sant Julià de Lòria | ```Certés``` |
-| Escaldes-Engordany | ```Centre``` |
-| Escaldes-Engordany | ```Sa Calma``` |
-
----
-
-## Entitats creades
-
-### Estació meteorològica
-
-Cada estació crea un **dispositiu** amb:
-
-| Entitat | Tipus | Unitat |
-|---|---|---|
-| ```Temperatura``` | sensor | °C |
-| ```Temperatura màxima diària``` | sensor | °C |
-| ```Temperatura mínima diària``` | sensor | °C |
-| ```Humitat``` | sensor | % |
-| ```Humitat màxima diària``` | sensor | % |
-| ```Humitat mínima diària``` | sensor | % |
-| ```Pressió``` | sensor | hPa |
-| ```Pressió màxima diària``` | sensor | hPa |
-| ```Pressió mínima diària``` | sensor | hPa |
-| ```Velocitat del vent``` | sensor | km/h |
-| ```Ratxa màxima diària``` | sensor | km/h |
-| ```Direcció del vent``` | sensor | ° |
-| ```Precipitació diària``` | sensor | mm |
-| ```weather``` |**Temps** |  — amb icona de condició |
-
-La condició meteorològica (sol, núvols, pluja, neu, etc.) prové directament del feed i es mostra com a icona a la targeta `weather`.
-
-### Butlletí d'allaus
-
-Un sol dispositiu **Butlletí d'allaus — Principat d'Andorra** amb:
-
-| Entitat | Tipus | Descripció |
-|---|---|---|
-| Perill d'allaus — Zona nord | sensor | Nivell 1–5 (escala europea) |
-| Perill d'allaus — Zona centre | sensor | Nivell 1–5 |
-| Perill d'allaus — Zona sud | sensor | Nivell 1–5 |
-| Butlletí vàlid fins | sensor | Data de caducitat |
-| Avís d'allaus actiu | binary_sensor | `on` si qualsevol zona ≥ 3 (Marcat) |
-
-Els sensors de perill inclouen atributs amb el tipus de problema, la tendència i els textos descriptius del butlletí.
-
-**Escala europea de perill d'allaus:**
-
-| Nivell | Nom |
-|---|---|
-| 1 | Feble |
-| 2 | Limitat |
-| 3 | Marcat |
-| 4 | Fort |
-| 5 | Molt fort |
-
----
-
-## Exemple d'automatització
-
-```yaml
-automation:
-  - alias: "Avís perill d'allaus"
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.avis_allaus_actiu
-        to: "on"
-    action:
-      - service: notify.telegram_jan
-        data:
-          message: >
-            ⛷️ Perill d'allaus ACTIU al Principat!
-            Nord: {{ states('sensor.perill_allaus_zona_nord') }}
-            Centre: {{ states('sensor.perill_allaus_zona_centre') }}
-            Sud: {{ states('sensor.perill_allaus_zona_sud') }}
-```
-
----
-
 <details>
 <summary>🇪🇸 Español</summary>
 
@@ -298,7 +160,10 @@ cards:
       - entity: sensor.encamp_encamp_daily_precipitation
         name: Precipitación
 ```
-Tarjeta de aludes con colores de nivel
+---
+
+###Tarjeta de aludes con colores de nivel
+
 ```yaml
 type: entities
 title: 🏔️ Butlletí d'allaus — Principat d'Andorra
@@ -325,8 +190,10 @@ entities:
   - entity: sensor.butlleti_valid_fins
     name: Válido hasta
 ```
+---
 
-Tarjeta de aludes con badge de colores (Mushroom Cards)
+###Tarjeta de aludes con badge de colores (Mushroom Cards)
+
 ```yaml
 type: horizontal-stack
 cards:
@@ -364,7 +231,10 @@ cards:
       {% elif n == 3 %} orange
       {% elif n >= 4 %} red {% endif %}
 ```
-Comparativa de todas las estaciones (Statistics Graph)
+---
+
+###Comparativa de todas las estaciones (Statistics Graph)
+
 ```yaml
 type: statistics-graph
 title: Temperaturas — Todas las estaciones
@@ -381,8 +251,11 @@ stat_types:
   - max
 days_to_show: 7
 ```
-🤖 Automatizaciones de ejemplo
-Aviso por Telegram cuando el peligro de aludes es alto
+---
+
+##🤖 Automatizaciones de ejemplo
+###Aviso por Telegram cuando el peligro de aludes es alto
+
 ```yaml
 automation:
   - alias: "🏔️ Aviso peligro aludes Andorra"
@@ -415,7 +288,9 @@ automation:
             📅 Válido hasta: {{ states('sensor.butlleti_valid_fins') }}
             🔗 [Boletín completo](https://www.meteo.ad/neu)
 ```
-Aviso cuando la estación lleva más de 1 hora sin actualizar
+
+###Aviso cuando la estación lleva más de 1 hora sin actualizar
+
 ```yaml
 automation:
   - alias: "📡 Estación Encamp offline"
@@ -437,7 +312,9 @@ automation:
             📡 La estación de Encamp no ha actualizado datos en más de 1 hora.
             Última actualización: {{ states('sensor.encamp_encamp_ultima_actualitzacio') }}
 ```
-Aviso de helada matinal
+
+###Aviso de helada matinal
+
 ```yaml
 automation:
   - alias: "🌡️ Aviso de helada — Encamp"
@@ -459,11 +336,12 @@ automation:
 ```
 ---
 
-Notificación de nueva estación detectada
+###Notificación de nueva estación detectada
+
 Esta automatización es automática — la integración ya crea una notificación persistente en HA
 si detecta un código de estación nuevo en el Principado. No es necesario configurar nada adicional.
 
-🔄 Añadir una nueva estación (cuando aparezca una nueva en el Principado)
+##🔄 Añadir una nueva estación (cuando aparezca una nueva en el Principado)
 Si recibes una notificación de nueva estación detectada, el proceso es muy sencillo:
 
 Comprueba el código nuevo en https://www.meteoclimatic.net/mapinfo/ADAND
@@ -476,7 +354,8 @@ Añade la nueva instancia desde la integración
 
 ---
 
-📝 Notas técnicas
+###📝 Notas técnicas
+
 Polling: Estaciones cada 30 min · Boletín de aludes cada 60 min · Detección de estaciones nuevas cada 24h
 
 Caché: Si una estación queda offline, las entidades mantienen el último valor conocido hasta recuperar conexión
@@ -588,14 +467,14 @@ Butlletí d'allaus — Principat d'Andorra
 
 #### Échelle européenne du danger d'avalanches
 
-| Niveau | Nom | Couleur |
+| Niveau | Nom |
 |---|---|---|
-| 0 | Pas de danger | ⬜ |
-| 1 | Faible | 🟩 |
-| 2 | Limité | 🟨 |
-| 3 | Marqué | 🟧 |
-| 4 | Fort | 🟥 |
-| 5 | Très fort | 🟫 |
+| 0 | Pas de danger |
+| 1 | Faible |
+| 2 | Limité | 
+| 3 | Marqué | 
+| 4 | Fort | 
+| 5 | Très fort |
 
 ---
 
@@ -626,7 +505,8 @@ cards:
         name: Précipitation
 ```
 
-Carte avalanches avec couleurs de niveau
+###Carte avalanches avec couleurs de niveau
+
 ```yaml
 type: entities
 title: 🏔️ Butlletí d'allaus — Principat d'Andorra
@@ -653,7 +533,9 @@ entities:
   - entity: sensor.butlleti_valid_fins
     name: Valable jusqu'au
 ```
-Carte avalanches avec badge de couleurs (Mushroom Cards)
+
+###Carte avalanches avec badge de couleurs (Mushroom Cards)
+
 ```yaml
 type: horizontal-stack
 cards:
@@ -691,7 +573,9 @@ cards:
       {% elif n == 3 %} orange
       {% elif n >= 4 %} red {% endif %}
 ```
-Comparaison de toutes les stations (Statistics Graph)
+
+###Comparaison de toutes les stations (Statistics Graph)
+
 ```yaml
 type: statistics-graph
 title: Températures — Toutes les stations
@@ -708,8 +592,10 @@ stat_types:
   - max
 days_to_show: 7
 ```
-🤖 Automatisations d'exemple
-Alerte par Telegram quand le danger d'avalanches est élevé
+
+##🤖 Automatisations d'exemple
+###Alerte par Telegram quand le danger d'avalanches est élevé
+
 ```yaml
 automation:
   - alias: "🏔️ Alerte danger avalanches Andorre"
@@ -742,7 +628,9 @@ automation:
             📅 Valable jusqu'au: {{ states('sensor.butlleti_valid_fins') }}
             🔗 [Bulletin complet](https://www.meteo.ad/neu)
 ```
-Alerte quand la station n'a pas mis à jour depuis plus d'1 heure
+
+###Alerte quand la station n'a pas mis à jour depuis plus d'1 heure
+
 ```yaml
 automation:
   - alias: "📡 Station Encamp hors ligne"
@@ -764,7 +652,9 @@ automation:
             📡 La station d'Encamp n'a pas mis à jour ses données depuis plus d'1 heure.
             Dernière mise à jour: {{ states('sensor.encamp_encamp_ultima_actualitzacio') }}
 ```
-Alerte de gel matinal
+
+###Alerte de gel matinal
+
 ```yaml
 automation:
   - alias: "🌡️ Alerte de gel — Encamp"
@@ -784,11 +674,12 @@ automation:
             Température actuelle: {{ states('sensor.encamp_encamp_temperature') }}°C
             Minimale du jour: {{ states('sensor.encamp_encamp_daily_min_temperature') }}°C
 ```
-Notification de nouvelle station détectée
+###Notification de nouvelle station détectée
+
 Cette automatisation est automatique — l'intégration crée déjà une notification persistante dans HA
 si elle détecte un nouveau code de station dans la Principauté. Aucune configuration supplémentaire nécessaire.
 
-🔄 Ajouter une nouvelle station (quand une nouvelle apparaît dans la Principauté)
+##🔄 Ajouter une nouvelle station (quand une nouvelle apparaît dans la Principauté)
 Si vous recevez une notification de nouvelle station détectée, le processus est très simple :
 
 Vérifiez le nouveau code sur https://www.meteoclimatic.net/mapinfo/ADAND
@@ -801,7 +692,8 @@ Ajoutez la nouvelle instance depuis l'intégration
 
 ---
 
-📝 Notes techniques
+###📝 Notes techniques
+
 Polling: Stations toutes les 30 min · Bulletin d'avalanches toutes les 60 min · Détection de nouvelles stations toutes les 24h
 
 Cache: Si une station est hors ligne, les entités conservent la dernière valeur connue jusqu'à rétablissement de la connexion
@@ -949,7 +841,9 @@ cards:
       - entity: sensor.encamp_encamp_daily_precipitation
         name: Precipitation
 ```
-Avalanche card with level colors
+
+###Avalanche card with level colors
+
 ```yaml
 type: entities
 title: 🏔️ Butlletí d'allaus — Principat d'Andorra
@@ -976,7 +870,9 @@ entities:
   - entity: sensor.butlleti_valid_fins
     name: Valid until
 ```
-Avalanche card with color badges (Mushroom Cards)
+
+###Avalanche card with color badges (Mushroom Cards)
+
 ```yaml
 type: horizontal-stack
 cards:
@@ -1014,7 +910,9 @@ cards:
       {% elif n == 3 %} orange
       {% elif n >= 4 %} red {% endif %}
 ```
-All stations comparison (Statistics Graph)
+
+###All stations comparison (Statistics Graph)
+
 ```yaml
 type: statistics-graph
 title: Temperatures — All stations
@@ -1031,8 +929,10 @@ stat_types:
   - max
 days_to_show: 7
 ```
-🤖 Example automations
-Telegram alert when avalanche danger is high
+
+##🤖 Example automations
+###Telegram alert when avalanche danger is high
+
 ```yaml
 automation:
   - alias: "🏔️ Andorra avalanche danger alert"
@@ -1065,7 +965,9 @@ automation:
             📅 Valid until: {{ states('sensor.butlleti_valid_fins') }}
             🔗 [Full bulletin](https://www.meteo.ad/neu)
 ```
-Alert when station has been offline for more than 1 hour
+
+###Alert when station has been offline for more than 1 hour
+
 ```yaml
 automation:
   - alias: "📡 Encamp station offline"
@@ -1087,7 +989,9 @@ automation:
             📡 The Encamp station has not updated data for more than 1 hour.
             Last update: {{ states('sensor.encamp_encamp_ultima_actualitzacio') }}
 ```
-Morning frost alert
+
+###Morning frost alert
+
 ```yaml
 automation:
   - alias: "🌡️ Frost alert — Encamp"
@@ -1109,11 +1013,11 @@ automation:
 ```
 ---
 
-New station detected notification
+###New station detected notification
 This automation is automatic — the integration already creates a persistent notification in HA
 if it detects a new station code in the Principality. No additional configuration needed.
 
-🔄 Adding a new station (when a new one appears in the Principality)
+###🔄 Adding a new station (when a new one appears in the Principality)
 If you receive a new station detected notification, the process is very simple:
 
 Check the new code at https://www.meteoclimatic.net/mapinfo/ADAND
@@ -1126,7 +1030,7 @@ Add the new instance from the integration
 
 ---
 
-📝 Technical notes
+##📝 Technical notes
 Polling: Stations every 30 min · Avalanche bulletin every 60 min · New station detection every 24h
 
 Cache: If a station goes offline, entities keep the last known value until connection is restored
@@ -1276,7 +1180,9 @@ cards:
       - entity: sensor.encamp_encamp_daily_precipitation
         name: Precipitação
 ```
-Cartão de avalanches com cores de nível
+
+###Cartão de avalanches com cores de nível
+
 ```yaml
 type: entities
 title: 🏔️ Butlletí d'allaus — Principat d'Andorra
@@ -1303,7 +1209,9 @@ entities:
   - entity: sensor.butlleti_valid_fins
     name: Válido até
 ```
-Cartão de avalanches com badge de cores (Mushroom Cards)
+
+###Cartão de avalanches com badge de cores (Mushroom Cards)
+
 ```yaml
 type: horizontal-stack
 cards:
@@ -1341,7 +1249,9 @@ cards:
       {% elif n == 3 %} orange
       {% elif n >= 4 %} red {% endif %}
 ```
-Comparação de todas as estações (Statistics Graph)
+
+###Comparação de todas as estações (Statistics Graph)
+
 ```yaml
 type: statistics-graph
 title: Temperaturas — Todas as estações
@@ -1358,8 +1268,10 @@ stat_types:
   - max
 days_to_show: 7
 ```
-🤖 Automações de exemplo
-Aviso por Telegram quando o perigo de avalanches é alto
+
+##🤖 Automações de exemplo
+###Aviso por Telegram quando o perigo de avalanches é alto
+
 ```yaml
 automation:
   - alias: "🏔️ Aviso perigo avalanches Andorra"
@@ -1392,7 +1304,9 @@ automation:
             📅 Válido até: {{ states('sensor.butlleti_valid_fins') }}
             🔗 [Boletim completo](https://www.meteo.ad/neu)
 ```
-Aviso quando a estação está há mais de 1 hora sem atualizar
+
+###Aviso quando a estação está há mais de 1 hora sem atualizar
+
 ```yaml
 automation:
   - alias: "📡 Estação Encamp offline"
@@ -1414,7 +1328,9 @@ automation:
             📡 A estação de Encamp não atualizou dados há mais de 1 hora.
             Última atualização: {{ states('sensor.encamp_encamp_ultima_actualitzacio') }}
 ```
-Aviso de geada matinal
+
+###Aviso de geada matinal
+
 ```yaml
 automation:
   - alias: "🌡️ Aviso de geada — Encamp"
@@ -1437,11 +1353,11 @@ automation:
 
 ---
 
-Notificação de nova estação detetada
+##Notificação de nova estação detetada
 Esta automação é automática — a integração já cria uma notificação persistente no HA
 se detetar um novo código de estação no Principado. Não é necessário configurar nada adicional.
 
-🔄 Adicionar uma nova estação (quando aparecer uma nova no Principado)
+###🔄 Adicionar uma nova estação (quando aparecer uma nova no Principado)
 Se receber uma notificação de nova estação detetada, o processo é muito simples:
 
 Verifique o novo código em https://www.meteoclimatic.net/mapinfo/ADAND
@@ -1454,7 +1370,7 @@ Adicione a nova instância a partir da integração
 
 ---
 
-📝 Notas técnicas
+##📝 Notas técnicas
 Polling: Estações a cada 30 min · Boletim de avalanches a cada 60 min · Deteção de novas estações a cada 24h
 
 Cache: Se uma estação ficar offline, as entidades mantêm o último valor conhecido até recuperar a ligação
@@ -1463,6 +1379,342 @@ Valor -99: Meteoclimatic usa -99 como indicador de sensor avariado — a integra
 
 Domínio técnico: meteo_andorra (não alterar para compatibilidade com instalações existentes)
 </details>
+
+---
+
+## ✨ Característiques
+
+- 🌡️ **14 sensors meteorològics** per estació — temperatura, humitat, pressió, vent, precipitació i més
+- 🌤️ **Entitat Weather** amb icona de condició en temps real (sol, lluna, boira, neu, pluja...)
+- 🏔️ **Butlletí d'allaus oficial** del Servei Meteorològic Nacional — nivell de perill per zona Nord/Centre/Sud
+- ❄️ **Sensors de tipus de neu** per zona — neu ventada, neu humida, neu nova...
+- 🔔 **Binary sensor d'avís d'allaus** — s'activa quan qualsevol zona assoleix nivell ≥ 3
+- 📡 **Detecció automàtica** de noves estacions — notificació a HA si apareix una estació nova al Principat
+- 🛡️ **Dades en caché** — si una estació queda offline, conserva l'últim valor conegut
+- 🌍 **Multilingüe** — català (principal), espanyol, francès, anglès i portuguès
+
+---
+
+## 📦 Instal·lació
+
+### Via HACS (recomanat)
+
+1. Obre **HACS → Integracions → ⋮ → Repositoris personalitzats**
+2. Afegeix `https://github.com/janfajessen/andorra_meteo` com a tipus **Integration**
+3. Cerca **Andorra Meteo** i instal·la
+4. Reinicia Home Assistant
+<img src="brands/icon@2x.png" width="100"/>
+
+### Manual
+
+1. Copia la carpeta `custom_components/meteo_andorra/` a `config/custom_components/`
+2. Reinicia Home Assistant
+
+---
+
+## ⚙️ Configuració
+
+Ves a **Configuració → Dispositius i serveis → + Afegeix integració** i cerca **Andorra Meteo**.
+
+Un sol desplegable on tries parròquia o butlletí d'allaus:
+
+```
+Canillo
+Encamp
+Ordino
+Sant Julià de Lòria
+Escaldes-Engordany
+──────────────────────────────
+Butlletí d'allaus — Principat d'Andorra
+```
+
+> **Escaldes-Engordany** té dues estacions disponibles (Centre i Sa Calma) i demanarà una segona elecció.
+> Pots afegir **múltiples estacions**. El butlletí d'allaus només es pot afegir **una vegada**.
+
+### Estacions disponibles
+
+| Parròquia | Estació | Altitud |
+|---|---|---|
+| Canillo | Els Plans de Canillo | 1.780 m |
+| Encamp | Encamp | 1.270 m |
+| Ordino | La Cortinada | 1.330 m |
+| Sant Julià de Lòria | Certés | 1.350 m |
+| Escaldes-Engordany | Centre | 1.050 m |
+| Escaldes-Engordany | Sa Calma | 1.180 m |
+
+---
+
+## 📊 Entitats
+
+### Estació meteorològica
+
+| Sensor | Unitat | Descripció |
+|---|---|---|
+| Temperatura | °C | Temperatura actual |
+| Temperatura màxima diària | °C | Màxima del dia |
+| Temperatura mínima diària | °C | Mínima del dia |
+| Humitat | % | Humitat actual |
+| Humitat màxima / mínima diària | % | Extrems del dia |
+| Pressió | hPa | Pressió actual |
+| Pressió màxima / mínima diària | hPa | Extrems del dia |
+| Velocitat del vent | km/h | Vent actual |
+| Ratxa màxima diària | km/h | Ràfega màxima |
+| Direcció del vent | N/NE/E... | Rosa de 8 punts cardinals |
+| Orientació del vent | ° | Graus (0–360°) |
+| Precipitació diària | mm | Acumulat del dia |
+| Última actualització | — | Timestamp de les últimes dades reals |
+| **Temps** | — | Weather entity amb icona de condició |
+
+### Butlletí d'allaus
+
+| Sensor | Tipus | Descripció |
+|---|---|---|
+| Nivell de perill — Nord | sensor | 0–5 · Ordino, Canillo (Arcalís, Grandvalira nord) |
+| Nivell de perill — Centre | sensor | 0–5 · Encamp, Escaldes (Grandvalira central, Pas de la Casa) |
+| Nivell de perill — Sud | sensor | 0–5 · Sant Julià de Lòria, Andorra la Vella |
+| Tipus de neu — Nord | sensor | Neu ventada, Neu humida, Neu nova... |
+| Tipus de neu — Centre | sensor | Tipus de problema per zona |
+| Tipus de neu — Sud | sensor | Tipus de problema per zona |
+| Butlletí vàlid fins | sensor | Data de caducitat del butlletí |
+| **Avís d'allaus actiu** | binary_sensor | `on` si qualsevol zona ≥ 3 (Marcat) |
+
+#### Escala europea de perill d'allaus
+
+| Nivell | Nom |
+|---|---|---|
+| 0 | Sense perill |
+| 1 | Feble |
+| 2 | Limitat |
+| 3 | Marcat |
+| 4 | Fort |
+| 5 | Molt fort |
+
+---
+
+## 🎨 Targetes de exemple per al Dashboard
+
+### Targeta meteorològica completa
+
+```yaml
+type: vertical-stack
+cards:
+  - type: weather-forecast
+    entity: weather.encamp_encamp
+    forecast_type: daily
+  - type: glance
+    title: Encamp — 1.270 m
+    entities:
+      - entity: sensor.encamp_encamp_temperature
+        name: Temperatura
+      - entity: sensor.encamp_encamp_humidity
+        name: Humitat
+      - entity: sensor.encamp_encamp_pressure
+        name: Pressió
+      - entity: sensor.encamp_encamp_wind_speed
+        name: Vent
+      - entity: sensor.encamp_encamp_wind_direction
+        name: Direcció
+      - entity: sensor.encamp_encamp_daily_precipitation
+        name: Precipitació
+```
+
+### Targeta d'allaus amb colors de nivell
+
+```yaml
+type: entities
+title: 🏔️ Butlletí d'allaus — Principat d'Andorra
+entities:
+  - entity: binary_sensor.avis_allaus_actiu
+    name: Avís actiu
+  - entity: sensor.nivell_de_perill_allaus_nord
+    name: Zona Nord
+    icon: mdi:landslide-outline
+  - entity: sensor.nivell_de_perill_allaus_centre
+    name: Zona Centre
+    icon: mdi:landslide-outline
+  - entity: sensor.nivell_de_perill_allaus_sud
+    name: Zona Sud
+    icon: mdi:landslide-outline
+  - type: divider
+  - entity: sensor.tipus_de_neu_zona_nord
+    name: Tipus de neu Nord
+  - entity: sensor.tipus_de_neu_zona_centre
+    name: Tipus de neu Centre
+  - entity: sensor.tipus_de_neu_zona_sud
+    name: Tipus de neu Sud
+  - type: divider
+  - entity: sensor.butlleti_valid_fins
+    name: Vàlid fins
+```
+
+### Targeta d'allaus amb badge de colors (Mushroom Cards)
+
+```yaml
+type: horizontal-stack
+cards:
+  - type: custom:mushroom-template-card
+    primary: Zona Nord
+    secondary: "{{ states('sensor.nivell_de_perill_allaus_nord') }}/5 · {{ state_attr('sensor.nivell_de_perill_allaus_nord', 'level_name') }}"
+    icon: mdi:landslide-outline
+    icon_color: >
+      {% set n = states('sensor.nivell_de_perill_allaus_nord') | int %}
+      {% if n == 0 %} grey
+      {% elif n == 1 %} green
+      {% elif n == 2 %} yellow
+      {% elif n == 3 %} orange
+      {% elif n >= 4 %} red {% endif %}
+  - type: custom:mushroom-template-card
+    primary: Zona Centre
+    secondary: "{{ states('sensor.nivell_de_perill_allaus_centre') }}/5 · {{ state_attr('sensor.nivell_de_perill_allaus_centre', 'level_name') }}"
+    icon: mdi:landslide-outline
+    icon_color: >
+      {% set n = states('sensor.nivell_de_perill_allaus_centre') | int %}
+      {% if n == 0 %} grey
+      {% elif n == 1 %} green
+      {% elif n == 2 %} yellow
+      {% elif n == 3 %} orange
+      {% elif n >= 4 %} red {% endif %}
+  - type: custom:mushroom-template-card
+    primary: Zona Sud
+    secondary: "{{ states('sensor.nivell_de_perill_allaus_sud') }}/5 · {{ state_attr('sensor.nivell_de_perill_allaus_sud', 'level_name') }}"
+    icon: mdi:landslide-outline
+    icon_color: >
+      {% set n = states('sensor.nivell_de_perill_allaus_sud') | int %}
+      {% if n == 0 %} grey
+      {% elif n == 1 %} green
+      {% elif n == 2 %} yellow
+      {% elif n == 3 %} orange
+      {% elif n >= 4 %} red {% endif %}
+```
+
+### Comparativa de totes les estacions (Statistics Graph)
+
+```yaml
+type: statistics-graph
+title: Temperatures — Totes les estacions
+entities:
+  - sensor.encamp_encamp_temperature
+  - sensor.els_plans_de_canillo_canillo_temperature
+  - sensor.la_cortinada_ordino_temperature
+  - sensor.certes_sant_julia_de_loria_temperature
+  - sensor.escaldes_engordany_centre_escaldes_engordany_temperature
+  - sensor.escaldes_engordany_sa_calma_escaldes_engordany_temperature
+stat_types:
+  - mean
+  - min
+  - max
+days_to_show: 7
+```
+
+---
+
+## 🤖 Automatitzacions d'exemple
+
+### Avís per Telegram quan el perill d'allaus és alt
+
+```yaml
+automation:
+  - alias: "🏔️ Avís perill d'allaus Andorra"
+    description: "Notificació quan qualsevol zona arriba a perill marcat o superior"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.avis_allaus_actiu
+        to: "on"
+    condition:
+      - condition: template
+        value_template: >
+          {{ now().hour >= 7 and now().hour <= 22 }}
+    action:
+      - service: notify.telegram_jan
+        data:
+          message: >
+            ⛷️ *AVÍS D'ALLAUS ACTIU al Principat d'Andorra*
+
+            🔴 Nord: {{ states('sensor.nivell_de_perill_allaus_nord') }}/5
+            — {{ state_attr('sensor.nivell_de_perill_allaus_nord', 'level_name') }}
+            — {{ states('sensor.tipus_de_neu_zona_nord') }}
+
+            🔴 Centre: {{ states('sensor.nivell_de_perill_allaus_centre') }}/5
+            — {{ state_attr('sensor.nivell_de_perill_allaus_centre', 'level_name') }}
+            — {{ states('sensor.tipus_de_neu_zona_centre') }}
+
+            🔴 Sud: {{ states('sensor.nivell_de_perill_allaus_sud') }}/5
+            — {{ state_attr('sensor.nivell_de_perill_allaus_sud', 'level_name') }}
+
+            📅 Vàlid fins: {{ states('sensor.butlleti_valid_fins') }}
+            🔗 [Butlletí complet](https://www.meteo.ad/neu)
+```
+
+### Avís quan l'estació porta més d'1 hora sense actualitzar
+
+```yaml
+automation:
+  - alias: "📡 Estació Encamp offline"
+    trigger:
+      - platform: template
+        value_template: >
+          {% set last = states('sensor.encamp_encamp_ultima_actualitzacio') %}
+          {% if last not in ['unknown','unavailable'] %}
+            {% set dt = strptime(last, '%d/%m/%Y %H:%M UTC') %}
+            {{ (now().utctimetuple() | list | sum) - (dt.utctimetuple() | list | sum) > 3600 }}
+          {% else %}
+            false
+          {% endif %}
+        for: "00:05:00"
+    action:
+      - service: notify.telegram_jan
+        data:
+          message: >
+            📡 L'estació d'Encamp no ha actualitzat dades en més d'1 hora.
+            Última actualització: {{ states('sensor.encamp_encamp_ultima_actualitzacio') }}
+```
+
+### Avís de gelada matinal
+
+```yaml
+automation:
+  - alias: "🌡️ Avís de gelada — Encamp"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.encamp_encamp_temperature
+        below: 0
+    condition:
+      - condition: time
+        after: "06:00:00"
+        before: "10:00:00"
+    action:
+      - service: notify.telegram_jan
+        data:
+          message: >
+            🌡️ Temperatura sota zero a Encamp!
+            Temperatura actual: {{ states('sensor.encamp_encamp_temperature') }}°C
+            Mínima del dia: {{ states('sensor.encamp_encamp_daily_min_temperature') }}°C
+```
+
+### Notificació de nova estació detectada
+
+> Aquesta automatització és automàtica — la integració ja crea una notificació persistent a HA
+> si detecta un codi d'estació nou al Principat. No cal configurar res addicional.
+
+---
+
+## 🔄 Afegir una nova estació (quan aparegui una nova al Principat)
+
+Si reps una notificació de nova estació detectada, el procés és molt senzill:
+
+1. Comprova el codi nou a `https://www.meteoclimatic.net/mapinfo/ADAND`
+2. Edita **només** `custom_components/meteo_andorra/const.py` afegint l'estació al bloc `PARISHES`
+3. Reinicia Home Assistant
+4. Afegeix la nova instància des de la integració
+
+---
+
+## 📝 Notes tècniques
+
+- **Polling:** Estacions cada 30 min · Butlletí d'allaus cada 60 min · Detecció d'estacions noves cada 24h
+- **Caché:** Si una estació queda offline, les entitats mantenen l'últim valor conegut fins a recuperar connexió
+- **Valor -99:** Meteoclimatic usa -99 com a indicador de sensor avariat — la integració el filtra i mostra `None`
+- **Domicili tècnic:** `meteo_andorra` (no canviar per compatibilitat amb instal·lacions existents)
 
 ---
 
