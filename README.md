@@ -851,6 +851,289 @@ Go to **Configuration → Devices & Services → + Add integration** and search 
 
 A single dropdown where you choose parish or avalanche bulletin:
 
+Canillo
+Encamp
+Ordino
+Sant Julià de Lòria
+Escaldes-Engordany
+──────────────────────────────
+Butlletí d'allaus — Principat d'Andorra
+
+
+> **Escaldes-Engordany** has two stations available (Centre and Sa Calma) and will ask for a second choice.
+> You can add **multiple stations**. The avalanche bulletin can only be added **once**.
+
+### Available stations
+
+| Parish | Station | Altitude |
+|---|---|---|
+| Canillo | Els Plans de Canillo | 1,780 m |
+| Encamp | Encamp | 1,270 m |
+| Ordino | La Cortinada | 1,330 m |
+| Sant Julià de Lòria | Certés | 1,350 m |
+| Escaldes-Engordany | Centre | 1,050 m |
+| Escaldes-Engordany | Sa Calma | 1,180 m |
+
+---
+
+## 📊 Entities
+
+### Weather station
+
+| Sensor | Unit | Description |
+|---|---|---|
+| Temperature | °C | Current temperature |
+| Daily maximum temperature | °C | Day's maximum |
+| Daily minimum temperature | °C | Day's minimum |
+| Humidity | % | Current humidity |
+| Daily max / min humidity | % | Day's extremes |
+| Pressure | hPa | Current pressure |
+| Daily max / min pressure | hPa | Day's extremes |
+| Wind speed | km/h | Current wind |
+| Daily maximum gust | km/h | Maximum gust |
+| Wind direction | N/NE/E... | 8-point compass rose |
+| Wind bearing | ° | Degrees (0–360°) |
+| Daily precipitation | mm | Day's accumulation |
+| Last update | — | Timestamp of last real data |
+| **Weather** | — | Weather entity with condition icon |
+
+### Avalanche bulletin
+
+| Sensor | Type | Description |
+|---|---|---|
+| Danger level — North | sensor | 0–5 · Ordino, Canillo (Arcalís, Grandvalira north) |
+| Danger level — Center | sensor | 0–5 · Encamp, Escaldes (Grandvalira central, Pas de la Casa) |
+| Danger level — South | sensor | 0–5 · Sant Julià de Lòria, Andorra la Vella |
+| Snow type — North | sensor | Wind-blown snow, Wet snow, Fresh snow... |
+| Snow type — Center | sensor | Problem type per zone |
+| Snow type — South | sensor | Problem type per zone |
+| Bulletin valid until | sensor | Bulletin expiry date |
+| **Avalanche warning active** | binary_sensor | `on` if any zone ≥ 3 (Considerable) |
+
+#### European avalanche danger scale
+
+| Level | Name | Color |
+|---|---|---|
+| 0 | No danger | ⬜ |
+| 1 | Low | 🟩 |
+| 2 | Limited | 🟨 |
+| 3 | Considerable | 🟧 |
+| 4 | High | 🟥 |
+| 5 | Very high | 🟫 |
+
+---
+
+## 🎨 Example dashboard cards
+
+### Complete weather card
+
+```
+type: vertical-stack
+cards:
+  - type: weather-forecast
+    entity: weather.encamp_encamp
+    forecast_type: daily
+  - type: glance
+    title: Encamp — 1,270 m
+    entities:
+      - entity: sensor.encamp_encamp_temperature
+        name: Temperature
+      - entity: sensor.encamp_encamp_humidity
+        name: Humidity
+      - entity: sensor.encamp_encamp_pressure
+        name: Pressure
+      - entity: sensor.encamp_encamp_wind_speed
+        name: Wind
+      - entity: sensor.encamp_encamp_wind_direction
+        name: Direction
+      - entity: sensor.encamp_encamp_daily_precipitation
+        name: Precipitation
+```
+Avalanche card with level colors
+```
+type: entities
+title: 🏔️ Butlletí d'allaus — Principat d'Andorra
+entities:
+  - entity: binary_sensor.avis_allaus_actiu
+    name: Active warning
+  - entity: sensor.nivell_de_perill_allaus_nord
+    name: North Zone
+    icon: mdi:landslide-outline
+  - entity: sensor.nivell_de_perill_allaus_centre
+    name: Center Zone
+    icon: mdi:landslide-outline
+  - entity: sensor.nivell_de_perill_allaus_sud
+    name: South Zone
+    icon: mdi:landslide-outline
+  - type: divider
+  - entity: sensor.tipus_de_neu_zona_nord
+    name: Snow type North
+  - entity: sensor.tipus_de_neu_zona_centre
+    name: Snow type Center
+  - entity: sensor.tipus_de_neu_zona_sud
+    name: Snow type South
+  - type: divider
+  - entity: sensor.butlleti_valid_fins
+    name: Valid until
+```
+Avalanche card with color badges (Mushroom Cards)
+```
+type: horizontal-stack
+cards:
+  - type: custom:mushroom-template-card
+    primary: North Zone
+    secondary: "{{ states('sensor.nivell_de_perill_allaus_nord') }}/5 · {{ state_attr('sensor.nivell_de_perill_allaus_nord', 'level_name') }}"
+    icon: mdi:landslide-outline
+    icon_color: >
+      {% set n = states('sensor.nivell_de_perill_allaus_nord') | int %}
+      {% if n == 0 %} grey
+      {% elif n == 1 %} green
+      {% elif n == 2 %} yellow
+      {% elif n == 3 %} orange
+      {% elif n >= 4 %} red {% endif %}
+  - type: custom:mushroom-template-card
+    primary: Center Zone
+    secondary: "{{ states('sensor.nivell_de_perill_allaus_centre') }}/5 · {{ state_attr('sensor.nivell_de_perill_allaus_centre', 'level_name') }}"
+    icon: mdi:landslide-outline
+    icon_color: >
+      {% set n = states('sensor.nivell_de_perill_allaus_centre') | int %}
+      {% if n == 0 %} grey
+      {% elif n == 1 %} green
+      {% elif n == 2 %} yellow
+      {% elif n == 3 %} orange
+      {% elif n >= 4 %} red {% endif %}
+  - type: custom:mushroom-template-card
+    primary: South Zone
+    secondary: "{{ states('sensor.nivell_de_perill_allaus_sud') }}/5 · {{ state_attr('sensor.nivell_de_perill_allaus_sud', 'level_name') }}"
+    icon: mdi:landslide-outline
+    icon_color: >
+      {% set n = states('sensor.nivell_de_perill_allaus_sud') | int %}
+      {% if n == 0 %} grey
+      {% elif n == 1 %} green
+      {% elif n == 2 %} yellow
+      {% elif n == 3 %} orange
+      {% elif n >= 4 %} red {% endif %}
+```
+All stations comparison (Statistics Graph)
+```
+type: statistics-graph
+title: Temperatures — All stations
+entities:
+  - sensor.encamp_encamp_temperature
+  - sensor.els_plans_de_canillo_canillo_temperature
+  - sensor.la_cortinada_ordino_temperature
+  - sensor.certes_sant_julia_de_loria_temperature
+  - sensor.escaldes_engordany_centre_escaldes_engordany_temperature
+  - sensor.escaldes_engordany_sa_calma_escaldes_engordany_temperature
+stat_types:
+  - mean
+  - min
+  - max
+days_to_show: 7
+```
+🤖 Example automations
+Telegram alert when avalanche danger is high
+```
+automation:
+  - alias: "🏔️ Andorra avalanche danger alert"
+    description: "Notification when any zone reaches considerable danger or higher"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.avis_allaus_actiu
+        to: "on"
+    condition:
+      - condition: template
+        value_template: >
+          {{ now().hour >= 7 and now().hour <= 22 }}
+    action:
+      - service: notify.telegram_jan
+        data:
+          message: >
+            ⛷️ *AVALANCHE WARNING ACTIVE in the Principality of Andorra*
+
+            🔴 North: {{ states('sensor.nivell_de_perill_allaus_nord') }}/5
+            — {{ state_attr('sensor.nivell_de_perill_allaus_nord', 'level_name') }}
+            — {{ states('sensor.tipus_de_neu_zona_nord') }}
+
+            🔴 Center: {{ states('sensor.nivell_de_perill_allaus_centre') }}/5
+            — {{ state_attr('sensor.nivell_de_perill_allaus_centre', 'level_name') }}
+            — {{ states('sensor.tipus_de_neu_zona_centre') }}
+
+            🔴 South: {{ states('sensor.nivell_de_perill_allaus_sud') }}/5
+            — {{ state_attr('sensor.nivell_de_perill_allaus_sud', 'level_name') }}
+
+            📅 Valid until: {{ states('sensor.butlleti_valid_fins') }}
+            🔗 [Full bulletin](https://www.meteo.ad/neu)
+```
+Alert when station has been offline for more than 1 hour
+```
+automation:
+  - alias: "📡 Encamp station offline"
+    trigger:
+      - platform: template
+        value_template: >
+          {% set last = states('sensor.encamp_encamp_ultima_actualitzacio') %}
+          {% if last not in ['unknown','unavailable'] %}
+            {% set dt = strptime(last, '%d/%m/%Y %H:%M UTC') %}
+            {{ (now().utctimetuple() | list | sum) - (dt.utctimetuple() | list | sum) > 3600 }}
+          {% else %}
+            false
+          {% endif %}
+        for: "00:05:00"
+    action:
+      - service: notify.telegram_jan
+        data:
+          message: >
+            📡 The Encamp station has not updated data for more than 1 hour.
+            Last update: {{ states('sensor.encamp_encamp_ultima_actualitzacio') }}
+```
+Morning frost alert
+```
+automation:
+  - alias: "🌡️ Frost alert — Encamp"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.encamp_encamp_temperature
+        below: 0
+    condition:
+      - condition: time
+        after: "06:00:00"
+        before: "10:00:00"
+    action:
+      - service: notify.telegram_jan
+        data:
+          message: >
+            🌡️ Below zero temperature in Encamp!
+            Current temperature: {{ states('sensor.encamp_encamp_temperature') }}°C
+            Day's minimum: {{ states('sensor.encamp_encamp_daily_min_temperature') }}°C
+```
+---
+
+New station detected notification
+This automation is automatic — the integration already creates a persistent notification in HA
+if it detects a new station code in the Principality. No additional configuration needed.
+
+🔄 Adding a new station (when a new one appears in the Principality)
+If you receive a new station detected notification, the process is very simple:
+
+Check the new code at https://www.meteoclimatic.net/mapinfo/ADAND
+
+Edit only custom_components/meteo_andorra/const.py adding the station to the PARISHES block
+
+Restart Home Assistant
+
+Add the new instance from the integration
+
+---
+
+📝 Technical notes
+Polling: Stations every 30 min · Avalanche bulletin every 60 min · New station detection every 24h
+
+Cache: If a station goes offline, entities keep the last known value until connection is restored
+
+Value -99: Meteoclimatic uses -99 as a faulty sensor indicator — the integration filters it and shows None
+
+Technical name: meteo_andorra (do not change for compatibility with existing installations)
 
 </details>
 
@@ -859,14 +1142,326 @@ A single dropdown where you choose parish or avalanche bulletin:
 <details>
 <summary>🇵🇹 Português</summary>
 
-Integração Home Assistant para dados meteorológicos e perigo de avalanche no Principado de Andorra. Utiliza a rede de estações [Meteoclimatic](https://www.meteoclimatic.net/) e o boletim de avalanches do [Servei Meteorològic Nacional](https://www.meteo.ad/).
+## ✨ Características
 
-**Instalação:** Via HACS adicionando `https://github.com/janfajessen/meteo_andorra` como repositório personalizado, ou copiando `custom_components/meteo_andorra/` manualmente e reiniciando o Home Assistant.
+- 🌡️ **14 sensores meteorológicos** por estação — temperatura, humidade, pressão, vento, precipitação e mais
+- 🌤️ **Entidade Weather** com ícone de condição em tempo real (sol, lua, nevoeiro, neve, chuva...)
+- 🏔️ **Boletim de avalanches oficial** do Serviço Meteorológico Nacional — nível de perigo por zona Norte/Centro/Sul
+- ❄️ **Sensores de tipo de neve** por zona — neve soprada, neve húmida, neve nova...
+- 🔔 **Binary sensor de aviso de avalanches** — ativa quando qualquer zona atinge nível ≥ 3
+- 📡 **Deteção automática** de novas estações — notificação para HA se aparecer uma estação nova no Principado
+- 🛡️ **Dados em cache** — se uma estação ficar offline, mantém o último valor conhecido
+- 🌍 **Multilingue** — catalão (principal), espanhol, francês, inglês e português
 
-**Configuração:** Um único menu suspenso mostra todas as paróquias e a opção de boletim de avalanches. Escaldes-Engordany tem duas estações (Centre e Sa Calma) e solicita uma segunda seleção. O boletim de avalanches só pode ser adicionado uma vez.
+---
 
-**Entidades:** Cada estação cria um dispositivo com 13 sensores meteorológicos e uma entidade `weather` com ícone de condição. O boletim de avalanches cria um dispositivo com sensores de nível de perigo por zona (Norte/Centro/Sul, escala 1–5) e um `binary_sensor` que ativa quando qualquer zona atinge nível ≥ 3.
+## 📦 Instalação
 
+### Via HACS (recomendado)
+
+1. Abra **HACS → Integrações → ⋮ → Repositórios personalizados**
+2. Adicione `https://github.com/janfajessen/andorra_meteo` como tipo **Integration**
+3. Procure por **Andorra Meteo** e instale
+4. Reinicie o Home Assistant
+<img src="brands/icon@2x.png" width="100"/>
+
+### Manual
+
+1. Copie a pasta `custom_components/meteo_andorra/` para `config/custom_components/`
+2. Reinicie o Home Assistant
+
+---
+
+## ⚙️ Configuração
+
+Vá a **Configuração → Dispositivos e serviços → + Adicionar integração** e procure por **Andorra Meteo**.
+
+Uma única lista suspensa onde escolhe a freguesia ou boletim de avalanches:
+
+Canillo
+Encamp
+Ordino
+Sant Julià de Lòria
+Escaldes-Engordany
+──────────────────────────────
+Butlletí d'allaus — Principat d'Andorra
+
+
+> **Escaldes-Engordany** tem duas estações disponíveis (Centre e Sa Calma) e pedirá uma segunda escolha.
+> Pode adicionar **múltiplas estações**. O boletim de avalanches só pode ser adicionado **uma vez**.
+
+### Estações disponíveis
+
+| Freguesia | Estação | Altitude |
+|---|---|---|
+| Canillo | Els Plans de Canillo | 1.780 m |
+| Encamp | Encamp | 1.270 m |
+| Ordino | La Cortinada | 1.330 m |
+| Sant Julià de Lòria | Certés | 1.350 m |
+| Escaldes-Engordany | Centre | 1.050 m |
+| Escaldes-Engordany | Sa Calma | 1.180 m |
+
+---
+
+## 📊 Entidades
+
+### Estação meteorológica
+
+| Sensor | Unidade | Descrição |
+|---|---|---|
+| Temperatura | °C | Temperatura atual |
+| Temperatura máxima diária | °C | Máxima do dia |
+| Temperatura mínima diária | °C | Mínima do dia |
+| Humidade | % | Humidade atual |
+| Humidade máxima / mínima diária | % | Extremos do dia |
+| Pressão | hPa | Pressão atual |
+| Pressão máxima / mínima diária | hPa | Extremos do dia |
+| Velocidade do vento | km/h | Vento atual |
+| Rajada máxima diária | km/h | Rajada máxima |
+| Direção do vento | N/NE/E... | Rosa dos 8 pontos cardeais |
+| Orientação do vento | ° | Graus (0–360°) |
+| Precipitação diária | mm | Acumulado do dia |
+| Última atualização | — | Timestamp dos últimos dados reais |
+| **Tempo** | — | Weather entity com ícone de condição |
+
+### Boletim de avalanches
+
+| Sensor | Tipo | Descrição |
+|---|---|---|
+| Nível de perigo — Norte | sensor | 0–5 · Ordino, Canillo (Arcalís, Grandvalira norte) |
+| Nível de perigo — Centro | sensor | 0–5 · Encamp, Escaldes (Grandvalira central, Pas de la Casa) |
+| Nível de perigo — Sul | sensor | 0–5 · Sant Julià de Lòria, Andorra la Vella |
+| Tipo de neve — Norte | sensor | Neve soprada, Neve húmida, Neve nova... |
+| Tipo de neve — Centro | sensor | Tipo de problema por zona |
+| Tipo de neve — Sul | sensor | Tipo de problema por zona |
+| Boletim válido até | sensor | Data de expiração do boletim |
+| **Aviso de avalanches ativo** | binary_sensor | `on` se qualquer zona ≥ 3 (Marcado) |
+
+#### Escala europeia de perigo de avalanches
+
+| Nível | Nome | Cor |
+|---|---|---|
+| 0 | Sem perigo | ⬜ |
+| 1 | Fraco | 🟩 |
+| 2 | Limitado | 🟨 |
+| 3 | Marcado | 🟧 |
+| 4 | Forte | 🟥 |
+| 5 | Muito forte | 🟫 |
+
+---
+
+## 🎨 Exemplos de cartões para o Dashboard
+
+### Cartão meteorológico completo
+
+```yaml
+type: vertical-stack
+cards:
+  - type: weather-forecast
+    entity: weather.encamp_encamp
+    forecast_type: daily
+  - type: glance
+    title: Encamp — 1.270 m
+    entities:
+      - entity: sensor.encamp_encamp_temperature
+        name: Temperatura
+      - entity: sensor.encamp_encamp_humidity
+        name: Humidade
+      - entity: sensor.encamp_encamp_pressure
+        name: Pressão
+      - entity: sensor.encamp_encamp_wind_speed
+        name: Vento
+      - entity: sensor.encamp_encamp_wind_direction
+        name: Direção
+      - entity: sensor.encamp_encamp_daily_precipitation
+        name: Precipitação
+```
+Cartão de avalanches com cores de nível
+```
+type: entities
+title: 🏔️ Butlletí d'allaus — Principat d'Andorra
+entities:
+  - entity: binary_sensor.avis_allaus_actiu
+    name: Aviso ativo
+  - entity: sensor.nivell_de_perill_allaus_nord
+    name: Zona Norte
+    icon: mdi:landslide-outline
+  - entity: sensor.nivell_de_perill_allaus_centre
+    name: Zona Centro
+    icon: mdi:landslide-outline
+  - entity: sensor.nivell_de_perill_allaus_sud
+    name: Zona Sul
+    icon: mdi:landslide-outline
+  - type: divider
+  - entity: sensor.tipus_de_neu_zona_nord
+    name: Tipo de neve Norte
+  - entity: sensor.tipus_de_neu_zona_centre
+    name: Tipo de neve Centro
+  - entity: sensor.tipus_de_neu_zona_sud
+    name: Tipo de neve Sul
+  - type: divider
+  - entity: sensor.butlleti_valid_fins
+    name: Válido até
+```
+Cartão de avalanches com badge de cores (Mushroom Cards)
+```
+type: horizontal-stack
+cards:
+  - type: custom:mushroom-template-card
+    primary: Zona Norte
+    secondary: "{{ states('sensor.nivell_de_perill_allaus_nord') }}/5 · {{ state_attr('sensor.nivell_de_perill_allaus_nord', 'level_name') }}"
+    icon: mdi:landslide-outline
+    icon_color: >
+      {% set n = states('sensor.nivell_de_perill_allaus_nord') | int %}
+      {% if n == 0 %} grey
+      {% elif n == 1 %} green
+      {% elif n == 2 %} yellow
+      {% elif n == 3 %} orange
+      {% elif n >= 4 %} red {% endif %}
+  - type: custom:mushroom-template-card
+    primary: Zona Centro
+    secondary: "{{ states('sensor.nivell_de_perill_allaus_centre') }}/5 · {{ state_attr('sensor.nivell_de_perill_allaus_centre', 'level_name') }}"
+    icon: mdi:landslide-outline
+    icon_color: >
+      {% set n = states('sensor.nivell_de_perill_allaus_centre') | int %}
+      {% if n == 0 %} grey
+      {% elif n == 1 %} green
+      {% elif n == 2 %} yellow
+      {% elif n == 3 %} orange
+      {% elif n >= 4 %} red {% endif %}
+  - type: custom:mushroom-template-card
+    primary: Zona Sul
+    secondary: "{{ states('sensor.nivell_de_perill_allaus_sud') }}/5 · {{ state_attr('sensor.nivell_de_perill_allaus_sud', 'level_name') }}"
+    icon: mdi:landslide-outline
+    icon_color: >
+      {% set n = states('sensor.nivell_de_perill_allaus_sud') | int %}
+      {% if n == 0 %} grey
+      {% elif n == 1 %} green
+      {% elif n == 2 %} yellow
+      {% elif n == 3 %} orange
+      {% elif n >= 4 %} red {% endif %}
+```
+Comparação de todas as estações (Statistics Graph)
+```
+type: statistics-graph
+title: Temperaturas — Todas as estações
+entities:
+  - sensor.encamp_encamp_temperature
+  - sensor.els_plans_de_canillo_canillo_temperature
+  - sensor.la_cortinada_ordino_temperature
+  - sensor.certes_sant_julia_de_loria_temperature
+  - sensor.escaldes_engordany_centre_escaldes_engordany_temperature
+  - sensor.escaldes_engordany_sa_calma_escaldes_engordany_temperature
+stat_types:
+  - mean
+  - min
+  - max
+days_to_show: 7
+```
+🤖 Automações de exemplo
+Aviso por Telegram quando o perigo de avalanches é alto
+```
+automation:
+  - alias: "🏔️ Aviso perigo avalanches Andorra"
+    description: "Notificação quando qualquer zona atinge perigo marcado ou superior"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.avis_allaus_actiu
+        to: "on"
+    condition:
+      - condition: template
+        value_template: >
+          {{ now().hour >= 7 and now().hour <= 22 }}
+    action:
+      - service: notify.telegram_jan
+        data:
+          message: >
+            ⛷️ *AVISO DE AVALANCHES ATIVO no Principado de Andorra*
+
+            🔴 Norte: {{ states('sensor.nivell_de_perill_allaus_nord') }}/5
+            — {{ state_attr('sensor.nivell_de_perill_allaus_nord', 'level_name') }}
+            — {{ states('sensor.tipus_de_neu_zona_nord') }}
+
+            🔴 Centro: {{ states('sensor.nivell_de_perill_allaus_centre') }}/5
+            — {{ state_attr('sensor.nivell_de_perill_allaus_centre', 'level_name') }}
+            — {{ states('sensor.tipus_de_neu_zona_centre') }}
+
+            🔴 Sul: {{ states('sensor.nivell_de_perill_allaus_sud') }}/5
+            — {{ state_attr('sensor.nivell_de_perill_allaus_sud', 'level_name') }}
+
+            📅 Válido até: {{ states('sensor.butlleti_valid_fins') }}
+            🔗 [Boletim completo](https://www.meteo.ad/neu)
+```
+Aviso quando a estação está há mais de 1 hora sem atualizar
+```
+automation:
+  - alias: "📡 Estação Encamp offline"
+    trigger:
+      - platform: template
+        value_template: >
+          {% set last = states('sensor.encamp_encamp_ultima_actualitzacio') %}
+          {% if last not in ['unknown','unavailable'] %}
+            {% set dt = strptime(last, '%d/%m/%Y %H:%M UTC') %}
+            {{ (now().utctimetuple() | list | sum) - (dt.utctimetuple() | list | sum) > 3600 }}
+          {% else %}
+            false
+          {% endif %}
+        for: "00:05:00"
+    action:
+      - service: notify.telegram_jan
+        data:
+          message: >
+            📡 A estação de Encamp não atualizou dados há mais de 1 hora.
+            Última atualização: {{ states('sensor.encamp_encamp_ultima_actualitzacio') }}
+```
+Aviso de geada matinal
+```
+automation:
+  - alias: "🌡️ Aviso de geada — Encamp"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.encamp_encamp_temperature
+        below: 0
+    condition:
+      - condition: time
+        after: "06:00:00"
+        before: "10:00:00"
+    action:
+      - service: notify.telegram_jan
+        data:
+          message: >
+            🌡️ Temperatura abaixo de zero em Encamp!
+            Temperatura atual: {{ states('sensor.encamp_encamp_temperature') }}°C
+            Mínima do dia: {{ states('sensor.encamp_encamp_daily_min_temperature') }}°C
+```
+
+---
+
+Notificação de nova estação detetada
+Esta automação é automática — a integração já cria uma notificação persistente no HA
+se detetar um novo código de estação no Principado. Não é necessário configurar nada adicional.
+
+🔄 Adicionar uma nova estação (quando aparecer uma nova no Principado)
+Se receber uma notificação de nova estação detetada, o processo é muito simples:
+
+Verifique o novo código em https://www.meteoclimatic.net/mapinfo/ADAND
+
+Edite apenas custom_components/meteo_andorra/const.py adicionando a estação ao bloco PARISHES
+
+Reinicie o Home Assistant
+
+Adicione a nova instância a partir da integração
+
+---
+
+📝 Notas técnicas
+Polling: Estações a cada 30 min · Boletim de avalanches a cada 60 min · Deteção de novas estações a cada 24h
+
+Cache: Se uma estação ficar offline, as entidades mantêm o último valor conhecido até recuperar a ligação
+
+Valor -99: Meteoclimatic usa -99 como indicador de sensor avariado — a integração filtra e mostra None
+
+Domínio técnico: meteo_andorra (não alterar para compatibilidade com instalações existentes)
 </details>
 
 ---
