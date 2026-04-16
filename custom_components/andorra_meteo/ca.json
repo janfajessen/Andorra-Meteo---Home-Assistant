@@ -1,0 +1,29 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Andorra Meteo",
+        "description": "Selecciona una parròquia per afegir una estació meteorològica, o el butlletí d'allaus del Principat.",
+        "data": {
+          "parish": "Parròquia / Servei"
+        }
+      },
+      "station": {
+        "title": "Selecciona l'estació — {parish}",
+        "description": "Aquesta parròquia té més d'una estació disponible.",
+        "data": {
+          "station_code": "Estació"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "No s'ha pogut connectar. Comprova la connexió a Internet.",
+      "station_offline": "L'estació no ha retornat dades. Pot estar temporalment fora de línia.",
+      "unknown": "Error desconegut. Consulta els registres de Home Assistant."
+    },
+    "abort": {
+      "already_configured": "Aquesta estació ja està configurada.",
+      "single_instance_allowed": "El butlletí d'allaus ja està configurat."
+    }
+  }
+}
