@@ -1,6 +1,6 @@
 <div align="center">
 
-# Andorra Meteo
+# Andorra Meteo <br> Home Assistant Integration
 
 <img src="brands/logo@2x.png" width="450"/>
 
@@ -299,7 +299,7 @@ cards:
         name: Precipitación
 ```
 Tarjeta de aludes con colores de nivel
-```
+```yaml
 type: entities
 title: 🏔️ Butlletí d'allaus — Principat d'Andorra
 entities:
@@ -327,7 +327,7 @@ entities:
 ```
 
 Tarjeta de aludes con badge de colores (Mushroom Cards)
-```
+```yaml
 type: horizontal-stack
 cards:
   - type: custom:mushroom-template-card
@@ -365,7 +365,7 @@ cards:
       {% elif n >= 4 %} red {% endif %}
 ```
 Comparativa de todas las estaciones (Statistics Graph)
-```
+```yaml
 type: statistics-graph
 title: Temperaturas — Todas las estaciones
 entities:
@@ -383,7 +383,7 @@ days_to_show: 7
 ```
 🤖 Automatizaciones de ejemplo
 Aviso por Telegram cuando el peligro de aludes es alto
-```
+```yaml
 automation:
   - alias: "🏔️ Aviso peligro aludes Andorra"
     description: "Notificación cuando cualquier zona alcanza peligro marcado o superior"
@@ -416,7 +416,7 @@ automation:
             🔗 [Boletín completo](https://www.meteo.ad/neu)
 ```
 Aviso cuando la estación lleva más de 1 hora sin actualizar
-```
+```yaml
 automation:
   - alias: "📡 Estación Encamp offline"
     trigger:
@@ -438,7 +438,7 @@ automation:
             Última actualización: {{ states('sensor.encamp_encamp_ultima_actualitzacio') }}
 ```
 Aviso de helada matinal
-```
+```yaml
 automation:
   - alias: "🌡️ Aviso de helada — Encamp"
     trigger:
@@ -603,7 +603,7 @@ Butlletí d'allaus — Principat d'Andorra
 
 ### Carte météo complète
 
-```
+```yaml
 type: vertical-stack
 cards:
   - type: weather-forecast
@@ -627,7 +627,7 @@ cards:
 ```
 
 Carte avalanches avec couleurs de niveau
-```
+```yaml
 type: entities
 title: 🏔️ Butlletí d'allaus — Principat d'Andorra
 entities:
@@ -654,7 +654,7 @@ entities:
     name: Valable jusqu'au
 ```
 Carte avalanches avec badge de couleurs (Mushroom Cards)
-```
+```yaml
 type: horizontal-stack
 cards:
   - type: custom:mushroom-template-card
@@ -692,7 +692,7 @@ cards:
       {% elif n >= 4 %} red {% endif %}
 ```
 Comparaison de toutes les stations (Statistics Graph)
-```
+```yaml
 type: statistics-graph
 title: Températures — Toutes les stations
 entities:
@@ -710,7 +710,7 @@ days_to_show: 7
 ```
 🤖 Automatisations d'exemple
 Alerte par Telegram quand le danger d'avalanches est élevé
-```
+```yaml
 automation:
   - alias: "🏔️ Alerte danger avalanches Andorre"
     description: "Notification quand une zone atteint un danger marqué ou supérieur"
@@ -743,7 +743,7 @@ automation:
             🔗 [Bulletin complet](https://www.meteo.ad/neu)
 ```
 Alerte quand la station n'a pas mis à jour depuis plus d'1 heure
-```
+```yaml
 automation:
   - alias: "📡 Station Encamp hors ligne"
     trigger:
@@ -765,7 +765,7 @@ automation:
             Dernière mise à jour: {{ states('sensor.encamp_encamp_ultima_actualitzacio') }}
 ```
 Alerte de gel matinal
-```
+```yaml
 automation:
   - alias: "🌡️ Alerte de gel — Encamp"
     trigger:
@@ -927,7 +927,7 @@ Butlletí d'allaus — Principat d'Andorra
 
 ### Complete weather card
 
-```
+```yaml
 type: vertical-stack
 cards:
   - type: weather-forecast
@@ -950,7 +950,7 @@ cards:
         name: Precipitation
 ```
 Avalanche card with level colors
-```
+```yaml
 type: entities
 title: 🏔️ Butlletí d'allaus — Principat d'Andorra
 entities:
@@ -977,7 +977,7 @@ entities:
     name: Valid until
 ```
 Avalanche card with color badges (Mushroom Cards)
-```
+```yaml
 type: horizontal-stack
 cards:
   - type: custom:mushroom-template-card
@@ -1015,7 +1015,7 @@ cards:
       {% elif n >= 4 %} red {% endif %}
 ```
 All stations comparison (Statistics Graph)
-```
+```yaml
 type: statistics-graph
 title: Temperatures — All stations
 entities:
@@ -1033,7 +1033,7 @@ days_to_show: 7
 ```
 🤖 Example automations
 Telegram alert when avalanche danger is high
-```
+```yaml
 automation:
   - alias: "🏔️ Andorra avalanche danger alert"
     description: "Notification when any zone reaches considerable danger or higher"
@@ -1066,7 +1066,7 @@ automation:
             🔗 [Full bulletin](https://www.meteo.ad/neu)
 ```
 Alert when station has been offline for more than 1 hour
-```
+```yaml
 automation:
   - alias: "📡 Encamp station offline"
     trigger:
@@ -1088,7 +1088,7 @@ automation:
             Last update: {{ states('sensor.encamp_encamp_ultima_actualitzacio') }}
 ```
 Morning frost alert
-```
+```yaml
 automation:
   - alias: "🌡️ Frost alert — Encamp"
     trigger:
@@ -1277,7 +1277,7 @@ cards:
         name: Precipitação
 ```
 Cartão de avalanches com cores de nível
-```
+```yaml
 type: entities
 title: 🏔️ Butlletí d'allaus — Principat d'Andorra
 entities:
@@ -1304,7 +1304,7 @@ entities:
     name: Válido até
 ```
 Cartão de avalanches com badge de cores (Mushroom Cards)
-```
+```yaml
 type: horizontal-stack
 cards:
   - type: custom:mushroom-template-card
@@ -1342,7 +1342,7 @@ cards:
       {% elif n >= 4 %} red {% endif %}
 ```
 Comparação de todas as estações (Statistics Graph)
-```
+```yaml
 type: statistics-graph
 title: Temperaturas — Todas as estações
 entities:
@@ -1360,7 +1360,7 @@ days_to_show: 7
 ```
 🤖 Automações de exemplo
 Aviso por Telegram quando o perigo de avalanches é alto
-```
+```yaml
 automation:
   - alias: "🏔️ Aviso perigo avalanches Andorra"
     description: "Notificação quando qualquer zona atinge perigo marcado ou superior"
@@ -1393,7 +1393,7 @@ automation:
             🔗 [Boletim completo](https://www.meteo.ad/neu)
 ```
 Aviso quando a estação está há mais de 1 hora sem atualizar
-```
+```yaml
 automation:
   - alias: "📡 Estação Encamp offline"
     trigger:
@@ -1415,7 +1415,7 @@ automation:
             Última atualização: {{ states('sensor.encamp_encamp_ultima_actualitzacio') }}
 ```
 Aviso de geada matinal
-```
+```yaml
 automation:
   - alias: "🌡️ Aviso de geada — Encamp"
     trigger:
