@@ -1,0 +1,29 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Andorra Meteo",
+        "description": "Selecione uma paróquia para adicionar uma estação meteorológica, ou o boletim de avalanches do Principado.",
+        "data": {
+          "parish": "Paróquia / Serviço"
+        }
+      },
+      "station": {
+        "title": "Selecione a estação — {parish}",
+        "description": "Esta paróquia tem mais de uma estação disponível.",
+        "data": {
+          "station_code": "Estação"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Não foi possível conectar. Verifique sua conexão à Internet.",
+      "station_offline": "A estação não retornou dados. Pode estar temporariamente offline.",
+      "unknown": "Erro desconhecido. Verifique os registros do Home Assistant."
+    },
+    "abort": {
+      "already_configured": "Esta estação já está configurada.",
+      "single_instance_allowed": "O boletim de avalanches já está configurado."
+    }
+  }
+}

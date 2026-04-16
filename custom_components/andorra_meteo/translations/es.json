@@ -1,0 +1,29 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Andorra Meteo",
+        "description": "Selecciona una parroquia para añadir una estación meteorológica, o el boletín de aludes del Principado.",
+        "data": {
+          "parish": "Parroquia / Servicio"
+        }
+      },
+      "station": {
+        "title": "Selecciona la estación — {parish}",
+        "description": "Esta parroquia tiene más de una estación disponible.",
+        "data": {
+          "station_code": "Estación"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "No se pudo conectar. Comprueba tu conexión a Internet.",
+      "station_offline": "La estación no ha devuelto datos. Puede estar temporalmente fuera de línea.",
+      "unknown": "Error desconocido. Consulta los registros de Home Assistant."
+    },
+    "abort": {
+      "already_configured": "Esta estación ya está configurada.",
+      "single_instance_allowed": "El boletín de aludes ya está configurado."
+    }
+  }
+}

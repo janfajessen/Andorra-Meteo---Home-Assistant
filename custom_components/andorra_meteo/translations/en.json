@@ -1,0 +1,29 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Andorra Meteo",
+        "description": "Select a parish to add a weather station, or add the Principality's avalanche bulletin.",
+        "data": {
+          "parish": "Parish / Service"
+        }
+      },
+      "station": {
+        "title": "Select station — {parish}",
+        "description": "This parish has more than one station available.",
+        "data": {
+          "station_code": "Station"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not connect. Check your internet connection.",
+      "station_offline": "The station returned no data. It may be temporarily offline.",
+      "unknown": "Unknown error. Check Home Assistant logs."
+    },
+    "abort": {
+      "already_configured": "This station is already configured.",
+      "single_instance_allowed": "The avalanche bulletin is already configured."
+    }
+  }
+}
