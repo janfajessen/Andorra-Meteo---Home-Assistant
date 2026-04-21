@@ -364,6 +364,12 @@ Valor -99: Meteoclimatic usa -99 como indicador de sensor averiado — la integr
 
 Domicilio técnico: meteo_andorra (no cambiar por compatibilidad con instalaciones existentes)
 
+*Si esta integración te resulta útil, considera darle una estrella ⭐ en GitHub.*
+O considera apoyar su desarrollo
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-yellow?style=for-the-badge&logo=buymeacoffee)
+](https://www.buymeacoffee.com/janfajessen) 
+[![Patreon](https://img.shields.io/badge/Patreon-Support-red?style=for-the-badge&logo=patreon)](https://www.patreon.com/janfajessen)
+</div>
 
 </details>
 
@@ -702,6 +708,13 @@ Valeur -99: Meteoclimatic utilise -99 comme indicateur de capteur défectueux �
 
 Domicile technique: meteo_andorra (ne pas changer pour compatibilité avec les installations existantes)
 
+*Si cette intégration vous est utile, n'hésitez pas à lui attribuer une étoile sur GitHub.* 
+Vous pouvez également soutenir son développement
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-yellow?style=for-the-badge&logo=buymeacoffee)
+](https://www.buymeacoffee.com/janfajessen) 
+[![Patreon](https://img.shields.io/badge/Patreon-Support-red?style=for-the-badge&logo=patreon)](https://www.patreon.com/janfajessen)
+</div>
+
 </details>
 
 <details>
@@ -1038,6 +1051,14 @@ Cache: If a station goes offline, entities keep the last known value until conne
 Value -99: Meteoclimatic uses -99 as a faulty sensor indicator — the integration filters it and shows None
 
 Technical name: meteo_andorra (do not change for compatibility with existing installations)
+
+*If this integration is useful to you, consider giving it a ⭐ on GitHub.*
+Or consider supporting development!
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-yellow?style=for-the-badge&logo=buymeacoffee)
+](https://www.buymeacoffee.com/janfajessen) 
+[![Patreon](https://img.shields.io/badge/Patreon-Support-red?style=for-the-badge&logo=patreon)](https://www.patreon.com/janfajessen)
+</div>
 
 </details>
 
@@ -1378,6 +1399,14 @@ Cache: Se uma estação ficar offline, as entidades mantêm o último valor conh
 Valor -99: Meteoclimatic usa -99 como indicador de sensor avariado — a integração filtra e mostra None
 
 Domínio técnico: meteo_andorra (não alterar para compatibilidade com instalações existentes)
+
+*Se esta integração for útil para você, considere dar uma ⭐ no GitHub.*
+Ou considere apoiar o desenvolvimento!
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-yellow?style=for-the-badge&logo=buymeacoffee)
+](https://www.buymeacoffee.com/janfajessen) 
+[![Patreon](https://img.shields.io/badge/Patreon-Support-red?style=for-the-badge&logo=patreon)](https://www.patreon.com/janfajessen)
+</div>
+
 </details>
 
 ---
@@ -1717,6 +1746,15 @@ Si reps una notificació de nova estació detectada, el procés és molt senzill
 - **Domicili tècnic:** `meteo_andorra` (no canviar per compatibilitat amb instal·lacions existents)
 
 ---
+
+*Si aquesta integració es util per a tu, considera donar-li una ⭐ a GitHub.*
+O considera donar suport pel desenvolupament
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-yellow?style=for-the-badge&logo=buymeacoffee)
+](https://www.buymeacoffee.com/janfajessen) 
+[![Patreon](https://img.shields.io/badge/Patreon-Support-red?style=for-the-badge&logo=patreon)](https://www.patreon.com/janfajessen)
+</div>
+
 
 ## Llicència
 
