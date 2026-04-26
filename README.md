@@ -47,7 +47,7 @@
 2. Añade `https://github.com/janfajessen/andorra_meteo` como tipo **Integration**
 3. Busca **Andorra Meteo** e instala
 4. Reinicia Home Assistant
-<img src="brands/icon@2x.png" width="100"/>
+<img src="https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/blob/9cad0bd5289cede99da9f9dbccbfb432947ae7e6/brand/icon%402x.png" width="100"/>
 
 ### Manual
 
@@ -397,7 +397,7 @@ O considera apoyar su desarrollo
 2. Ajoutez `https://github.com/janfajessen/andorra_meteo` comme type **Integration**
 3. Cherchez **Andorra Meteo** et installez
 4. Redémarrez Home Assistant
-<img src="brands/icon@2x.png" width="100"/>
+<img src="https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/blob/9cad0bd5289cede99da9f9dbccbfb432947ae7e6/brand/icon%402x.png" width="100"/>
 
 ### Manuellement
 
@@ -741,7 +741,7 @@ Vous pouvez également soutenir son développement
 2. Add `https://github.com/janfajessen/andorra_meteo` as type **Integration**
 3. Search for **Andorra Meteo** and install
 4. Restart Home Assistant
-<img src="brands/icon@2x.png" width="100"/>
+<img src="https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/blob/9cad0bd5289cede99da9f9dbccbfb432947ae7e6/brand/icon%402x.png" width="100"/>
 
 ### Manual
 
@@ -1088,7 +1088,7 @@ Or consider supporting development!
 2. Adicione `https://github.com/janfajessen/andorra_meteo` como tipo **Integration**
 3. Procure por **Andorra Meteo** e instale
 4. Reinicie o Home Assistant
-<img src="brands/icon@2x.png" width="100"/>
+<img src="https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/blob/9cad0bd5289cede99da9f9dbccbfb432947ae7e6/brand/icon%402x.png" width="100"/>
 
 ### Manual
 
@@ -1432,7 +1432,7 @@ Ou considere apoiar o desenvolvimento!
 2. Afegeix `https://github.com/janfajessen/andorra_meteo` com a tipus **Integration**
 3. Cerca **Andorra Meteo** i instal·la
 4. Reinicia Home Assistant
-<img src="brands/icon@2x.png" width="100"/>
+<img src="https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/blob/9cad0bd5289cede99da9f9dbccbfb432947ae7e6/brand/icon%402x.png" width="100"/>
 
 ### Manual
 
