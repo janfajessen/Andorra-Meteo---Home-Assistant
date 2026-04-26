@@ -2,7 +2,7 @@
 
 # Andorra Meteo <br> Home Assistant Integration
 
-<img src="brands/logo@2x.png" width="450"/>
+<img src="https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/blob/00b524871b74007712a1e3f0340c117eef3ed445/brand/logo%402x.png" width="450"/>
 
 ![Version](https://img.shields.io/badge/version-1.5.24-blue?style=for-the-badge)
 ![HA](https://img.shields.io/badge/Home%20Assistant-2024.1+-orange?style=for-the-badge&logo=home-assistant)
