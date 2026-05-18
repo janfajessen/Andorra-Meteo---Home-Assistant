@@ -1,7 +1,7 @@
 {
   "domain": "andorra_meteo",
   "name": "Andorra Meteo",
-  "version": "1.0.0",
+  "version": "1.3.5",
   "config_flow": true,
   "documentation": "https://github.com/janfajessen/Andorra-Meteo---Home-Assistant",
   "issue_tracker": "https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/issues",
