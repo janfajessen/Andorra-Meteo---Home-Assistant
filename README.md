@@ -44,7 +44,7 @@
 ### Vía HACS (recomendado)
 
 1. Abre **HACS → Integraciones → ⋮ → Repositorios personalizados**
-2. Añade `https://github.com/janfajessen/andorra_meteo` como tipo **Integration**
+2. Añade `https://github.com/janfajessen/Andorra-Meteo---Home-Assistant` como tipo **Integration**
 3. Busca **Andorra Meteo** e instala
 4. Reinicia Home Assistant
 <img src="https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/blob/9cad0bd5289cede99da9f9dbccbfb432947ae7e6/brand/icon%402x.png" width="100"/>
