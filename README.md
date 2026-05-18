@@ -394,7 +394,7 @@ O considera apoyar su desarrollo
 ### Via HACS (recommandé)
 
 1. Ouvrez **HACS → Intégrations → ⋮ → Dépôts personnalisés**
-2. Ajoutez `https://github.com/janfajessen/andorra_meteo` comme type **Integration**
+2. Ajoutez `https://github.com/janfajessen/Andorra-Meteo---Home-Assistant` comme type **Integration**
 3. Cherchez **Andorra Meteo** et installez
 4. Redémarrez Home Assistant
 <img src="https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/blob/9cad0bd5289cede99da9f9dbccbfb432947ae7e6/brand/icon%402x.png" width="100"/>
@@ -738,7 +738,7 @@ Vous pouvez également soutenir son développement
 ### Via HACS (recommended)
 
 1. Open **HACS → Integrations → ⋮ → Custom repositories**
-2. Add `https://github.com/janfajessen/andorra_meteo` as type **Integration**
+2. Add `https://github.com/janfajessen/Andorra-Meteo---Home-Assistant` as type **Integration**
 3. Search for **Andorra Meteo** and install
 4. Restart Home Assistant
 <img src="https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/blob/9cad0bd5289cede99da9f9dbccbfb432947ae7e6/brand/icon%402x.png" width="100"/>
@@ -1085,7 +1085,7 @@ Or consider supporting development!
 ### Via HACS (recomendado)
 
 1. Abra **HACS → Integrações → ⋮ → Repositórios personalizados**
-2. Adicione `https://github.com/janfajessen/andorra_meteo` como tipo **Integration**
+2. Adicione `https://github.com/janfajessen/Andorra-Meteo---Home-Assistant` como tipo **Integration**
 3. Procure por **Andorra Meteo** e instale
 4. Reinicie o Home Assistant
 <img src="https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/blob/9cad0bd5289cede99da9f9dbccbfb432947ae7e6/brand/icon%402x.png" width="100"/>
@@ -1429,7 +1429,7 @@ Ou considere apoiar o desenvolvimento!
 ### Via HACS (recomanat)
 
 1. Obre **HACS → Integracions → ⋮ → Repositoris personalitzats**
-2. Afegeix `https://github.com/janfajessen/andorra_meteo` com a tipus **Integration**
+2. Afegeix `https://github.com/janfajessen/Andorra-Meteo---Home-Assistant` com a tipus **Integration**
 3. Cerca **Andorra Meteo** i instal·la
 4. Reinicia Home Assistant
 <img src="https://github.com/janfajessen/Andorra-Meteo---Home-Assistant/blob/9cad0bd5289cede99da9f9dbccbfb432947ae7e6/brand/icon%402x.png" width="100"/>
